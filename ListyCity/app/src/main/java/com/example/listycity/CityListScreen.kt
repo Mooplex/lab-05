@@ -145,6 +145,7 @@ fun CityListScreen(
                                 )
                             )
 
+
                             selectedCity = null
                             editedCityName = ""
                             editedProvinceName = ""
