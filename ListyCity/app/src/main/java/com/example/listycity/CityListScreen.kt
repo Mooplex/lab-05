@@ -1,3 +1,4 @@
+
 package com.example.listycity
 
 import androidx.compose.foundation.clickable
@@ -21,7 +22,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -31,6 +34,7 @@ import com.example.listycity.ui.theme.ListyCityTheme
 fun CityListScreen(
     cities: List<City>,
     onAddCity: (City) -> Unit,
+    onDeleteCity: (City) -> Unit,
     onUpdateCity: (City, City) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -43,11 +47,13 @@ fun CityListScreen(
 
     Column(modifier = modifier.fillMaxSize()) {
         Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.End
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(16.dp, Alignment.End),
+            verticalAlignment = Alignment.CenterVertically
         ) {
             FloatingActionButton(
-                modifier = Modifier.padding(16.dp),
                 onClick = {
                     showAddCityFields = !showAddCityFields
                     if (showAddCityFields) {
@@ -57,9 +63,22 @@ fun CityListScreen(
                     }
                 }
             ) {
-                Text("+")
+                Text("+", fontSize = 20.sp)
+            }
+            FloatingActionButton(
+                onClick = {
+                    selectedCity?.let { city ->
+                        onDeleteCity(city)
+                        selectedCity = null
+                    }
+                },
+                containerColor = if (selectedCity != null) Color.Red else Color.LightGray,
+                contentColor = if (selectedCity != null) Color.White else Color.Gray
+            ) {
+                Text("-", fontSize = 20.sp)
             }
         }
+
         if (showAddCityFields) {
             Row(
                 modifier = Modifier
@@ -214,6 +233,7 @@ fun CityListScreenPreview() {
                 City("Calgary", "AB")
             ),
             onAddCity = {},
+            onDeleteCity = {},
             onUpdateCity = { _, _ -> }
         )
     }

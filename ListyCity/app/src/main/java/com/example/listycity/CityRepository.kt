@@ -49,12 +49,11 @@ class CityRepository {
         }
     }
     fun deleteCity(city: City) {
-        /*
+        citiesRef.document(city.name).delete()
         val index = _cities.indexOf(city)
         if (index != -1) {
             _cities.removeAt(index)
         }
 
-         */
     }
 }
